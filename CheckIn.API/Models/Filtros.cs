@@ -13,8 +13,9 @@ namespace CheckIn.API.Models
         public int Codigo3 { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFinal { get; set; }
-
+        public string Estado { get; set; }
         public string Texto2 { get; set; }
         public string Texto3 { get; set; }
+        public string CodMoneda { get; set; }
     }
 }

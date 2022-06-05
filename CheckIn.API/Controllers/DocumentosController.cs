@@ -757,6 +757,17 @@ namespace CheckIn.API.Controllers
                     {
                         response2.Content.Headers.ContentType.MediaType = "application/json";
                         var resp2 = await response2.Content.ReadAsAsync<respuestaHacienda>();
+
+                        var Documentos = db.EncDocumento.Where(a => a.ClaveHacienda == Clave).FirstOrDefault();
+                        if(Documentos != null)
+                        {
+                            db.Entry(Documentos).State = System.Data.Entity.EntityState.Modified;
+                            Documentos.RespuestaHacienda = resp2.data.ind_estado;
+                            Documentos.ConsecutivoHacienda = Documentos.ClaveHacienda.Substring(21, 20);
+                            db.SaveChanges();
+                        }
+
+
                         G.CerrarConexionAPP(db);
 
                         return Request.CreateResponse(HttpStatusCode.OK, resp2);
@@ -787,6 +798,84 @@ namespace CheckIn.API.Controllers
 
             }
         }
+
+        [Route("api/Documentos/ConsultarAceptacion")]
+        public async System.Threading.Tasks.Task<HttpResponseMessage> GetOneAceptacionAsync([FromUri] string Clave, string CodSucursal = "001")
+        {
+            try
+            {
+                G.AbrirConexionAPP(out db);
+
+                var Sucursal = db.Sucursales.Where(a => a.codSuc == CodSucursal).FirstOrDefault();
+                var parametros = db.Parametros.FirstOrDefault();
+                //REspuesta de hacienda
+                cuerpoRespuesta cuerpo = new cuerpoRespuesta();
+
+
+                cuerpo.api_key = Sucursal.ApiKey;
+                cuerpo.clave = Clave;
+                HttpClient cliente2 = new HttpClient();
+
+                var httpContent2 = new StringContent(JsonConvert.SerializeObject(cuerpo), Encoding.UTF8, "application/json");
+                cliente2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                try
+                {
+                    HttpResponseMessage response2 = await cliente2.PostAsync(parametros.urlCyberConsultaHacienda, httpContent2);
+                    if (response2.IsSuccessStatusCode)
+                    {
+                        response2.Content.Headers.ContentType.MediaType = "application/json";
+                        try
+                        {
+                            var resp2 = await response2.Content.ReadAsAsync<respuestaHaciendaBandeja>();
+
+                            var Documentos = db.BandejaEntrada.Where(a => a.ClaveReceptor == Clave).FirstOrDefault();
+                            if (Documentos != null)
+                            {
+                                db.Entry(Documentos).State = System.Data.Entity.EntityState.Modified;
+                                Documentos.RespuestaHacienda = resp2.hacienda_result.ind_estado;
+                                Documentos.ConsecutivoReceptor = Documentos.ClaveReceptor.Substring(21, 20);
+                                db.SaveChanges();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                           
+                        }
+                       
+
+
+                        G.CerrarConexionAPP(db);
+
+                        return Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        G.CerrarConexionAPP(db);
+
+                        return Request.CreateResponse(HttpStatusCode.OK, response2.IsSuccessStatusCode);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    G.CerrarConexionAPP(db);
+
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+                }
+
+                //
+
+            }
+            catch (Exception ex)
+            {
+                G.CerrarConexionAPP(db);
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+            }
+        }
+
 
 
         [Route("api/Documentos/Respuesta")]

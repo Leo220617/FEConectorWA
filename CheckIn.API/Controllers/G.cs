@@ -25,6 +25,9 @@ using System.Text;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Xml;
+using Newtonsoft.Json;
+using CheckIn.API.Models.Apis;
 
 namespace CheckIn.API.Controllers
 {
@@ -276,6 +279,7 @@ namespace CheckIn.API.Controllers
 
         public static FacturaXml ObtenerDatosXmlRechazado(string xml)
         {
+            Regex GetXmlClave = new Regex("<Clave>([^\"]*)</Clave>");
 
             Regex GetXmlNumeroConsecutivo = new Regex("<NumeroConsecutivo>([^\"]*)</NumeroConsecutivo>");
             Regex GetXmlFechaEmision = new Regex("<FechaEmision>([^\"]*)</FechaEmision>");
@@ -289,13 +293,272 @@ namespace CheckIn.API.Controllers
 
             Regex GetXmlReceptor = new Regex("<Receptor>([^\"]*)</Receptor>");
             Regex GetXmlIdReceptor = new Regex("<Numero>([^\"]*)</Numero>");
+            //   Regex GetXmlIdEmisor = new Regex("<Tipo>([^\"]*)</Tipo>");
+
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            string json = JsonConvert.SerializeXmlNode(doc);
+
+            CuerpoBandejaEntrada cuerpoBandejaEntrada = null;
+            CuerpoBandejaEntrada1 cuerpoBandejaEntrada1 = null;
+
+            try
+            {
+                cuerpoBandejaEntrada = new CuerpoBandejaEntrada();
+                cuerpoBandejaEntrada = JsonConvert.DeserializeObject<CuerpoBandejaEntrada>(json);
+            }
+            catch (Exception)
+            {
+                cuerpoBandejaEntrada = null;
+                cuerpoBandejaEntrada1 = new CuerpoBandejaEntrada1();
+                cuerpoBandejaEntrada1 = JsonConvert.DeserializeObject<CuerpoBandejaEntrada1>(json);
+            }
+          
+
+
+
 
             FacturaXml facturaxml = new FacturaXml();
 
             try
             {
+                if(cuerpoBandejaEntrada != null)
+                {
+                    foreach (var item in cuerpoBandejaEntrada.FacturaElectronica.DetalleServicio.LineaDetalle)
+                    {
+
+                        decimal Impuesto = 0;
+                        try
+                        {
+                            Impuesto = Convert.ToDecimal(item.Impuesto.Tarifa);
+
+                        }
+                        catch (Exception)
+                        {
+
+                            Impuesto = Convert.ToDecimal(item.Impuesto.Tarifa.Replace(".", ","));
+
+                        }
+                        switch (Impuesto)
+                        {
+                            case 0:
+                                {
+                                    try
+                                    {
+                                        facturaxml.IVA0 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        facturaxml.IVA0 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                    }
+
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    try
+                                    {
+                                        facturaxml.IVA1 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        facturaxml.IVA1 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                    }
+
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    try
+                                    {
+                                        facturaxml.IVA2 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        facturaxml.IVA2 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                    }
+
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    try
+                                    {
+                                        facturaxml.IVA4 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        facturaxml.IVA4 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                    }
+                                    break;
+                                }
+                            case 8:
+                                {
+                                    try
+                                    {
+                                        facturaxml.IVA8 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        facturaxml.IVA8 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                    }
+
+                                    break;
+                                }
+                            case 13:
+                                {
+                                    try
+                                    {
+                                        facturaxml.IVA13 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                    }
+                                    catch (Exception)
+                                    {
+                                        facturaxml.IVA13 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                    }
+                                    break;
+                                }
+
+                        }
+                    }
+                }else if(cuerpoBandejaEntrada1 != null)
+                {
+                    decimal Impuesto = 0;
+                    try
+                    {
+                        Impuesto = Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Tarifa);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        Impuesto = Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Tarifa.Replace(".", ","));
+
+                    }
+                    switch (Impuesto)
+                    {
+                        case 0:
+                            {
+                                try
+                                {
+                                    facturaxml.IVA0 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
+
+                                }
+                                catch (Exception)
+                                {
+                                    facturaxml.IVA0 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
+
+
+                                }
+
+                                break;
+                            }
+                        case 1:
+                            {
+                                try
+                                {
+                                    facturaxml.IVA1 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
+
+                                }
+                                catch (Exception)
+                                {
+                                    facturaxml.IVA1 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
+
+
+                                }
+
+                                break;
+                            }
+                        case 2:
+                            {
+                                try
+                                {
+                                    facturaxml.IVA2 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
+
+                                }
+                                catch (Exception)
+                                {
+                                    facturaxml.IVA2 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
+
+
+                                }
+
+                                break;
+                            }
+                        case 4:
+                            {
+                                try
+                                {
+                                    facturaxml.IVA4 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
+
+                                }
+                                catch (Exception)
+                                {
+                                    facturaxml.IVA4 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
+
+
+                                }
+                                break;
+                            }
+                        case 8:
+                            {
+                                try
+                                {
+                                    facturaxml.IVA8 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
+
+                                }
+                                catch (Exception)
+                                {
+                                    facturaxml.IVA8 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
+
+
+                                }
+
+                                break;
+                            }
+                        case 13:
+                            {
+                                try
+                                {
+                                    facturaxml.IVA13 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
+
+                                }
+                                catch (Exception)
+                                {
+                                    facturaxml.IVA13 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
+
+
+                                }
+                                break;
+                            }
+
+                    }
+                }
+               
+
                 facturaxml.NumeroConsecutivo = GetXmlNumeroConsecutivo.Match(xml).ToString().Replace("<NumeroConsecutivo>", "").Replace("</NumeroConsecutivo>", "");
+                
                 facturaxml.TipoDocumento = facturaxml.NumeroConsecutivo.Substring(8, 2);
+                facturaxml.NumeroConsecutivo = GetXmlClave.Match(xml).ToString().Replace("<Clave>", "").Replace("</Clave>", "");
+
                 if (facturaxml.TipoDocumento == "01")
                     facturaxml.TipoDocumentoDescripcion = "Factura Electrónica";
                 else if (facturaxml.TipoDocumento == "02")
@@ -304,6 +567,10 @@ namespace CheckIn.API.Controllers
                     facturaxml.TipoDocumentoDescripcion = "Nota de Crédito";
                 else
                     facturaxml.TipoDocumento = "Tiquete Electrónico";
+
+                facturaxml.tipoIdentificacionEmisor = GetXmlIdEmisor.Match(GetXmlEmisor.Match(xml).ToString().Replace("<Emisor>", "").Replace("</Emisor>", "")).ToString().Replace("<Tipo>", "").Replace("</Tipo>", "");
+
+
                 string _FechaEmision = GetXmlFechaEmision.Match(xml).ToString().Replace("<FechaEmision>", "").Replace("</FechaEmision>", "").Substring(0, 10);
                 string[] Array_FechaEmision = _FechaEmision.Split('-');
                 if (Array_FechaEmision.Length == 3)
@@ -407,6 +674,13 @@ namespace CheckIn.API.Controllers
             CodigoMoneda = "";
             TotalComprobante = 0;
             IdReceptor = "";
+            IVA0 = 0;
+            IVA1 = 0;
+            IVA2 = 0;
+            IVA4 = 0;
+            IVA8 = 0;
+            IVA13 = 0;
+
         }
 
         public string NumeroConsecutivo { get; set; }
@@ -420,6 +694,17 @@ namespace CheckIn.API.Controllers
         public string IdReceptor { get; set; }
         public decimal Impuesto { get; set; }
         public string tipoIdentificacionEmisor { get; set; }
+        public decimal IVA0 { get; set; }
+        public decimal IVA1 { get; set; }
+
+        public decimal IVA2 { get; set; }
+
+        public decimal IVA4 { get; set; }
+
+        public decimal IVA8 { get; set; }
+
+        public decimal IVA13 { get; set; }
+
 
     }
 }

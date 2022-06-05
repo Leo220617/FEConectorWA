@@ -24,5 +24,7 @@ namespace CheckIn.API.Models.ModelCliente
 
         [StringLength(500)]
         public string urlWebApi { get; set; }
+
+        public string urlCyberConsultaHacienda { get; set; }
     }
 }

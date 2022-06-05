@@ -90,5 +90,19 @@ namespace CheckIn.API.Models.ModelCliente
 
         [StringLength(50)]
         public string ConsecutivoReceptor { get; set; }
+
+        public decimal IVA0 { get; set; }
+        public decimal IVA1 { get; set; }
+
+        public decimal IVA2 { get; set; }
+
+        public decimal IVA4 { get; set; }
+
+        public decimal IVA8 { get; set; }
+
+        public decimal IVA13 { get; set; }
+
+
+
     }
 }

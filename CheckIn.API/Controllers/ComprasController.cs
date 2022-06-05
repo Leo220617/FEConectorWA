@@ -112,7 +112,15 @@ namespace CheckIn.API.Controllers
                                                        " NombreEmisor = @NombreEmisor,IdEmisor = @IdEmisor ,CodigoMoneda = @CodigoMoneda , " +
                                                        " TotalComprobante = @TotalComprobante, " +
                                                        " Impuesto = @TotalImpuesto, " +
-                                                       " tipoIdentificacionEmisor = @EmisorId" +
+                                                       " tipoIdentificacionEmisor = @EmisorId," +
+                                                       " IVA0 = @IVA0," +
+                                                       " IVA1 = @IVA1," +
+                                                       " IVA2 = @IVA2," +
+                                                       " IVA4 = @IVA4," +
+                                                       " IVA8 = @IVA8," +
+                                                       " IVA13 = @IVA13" +
+
+
                                                        " WHERE Id=@Id ",
                                                         new SqlParameter("@NumeroConsecutivo", datos.NumeroConsecutivo),
                                                         new SqlParameter("@TipoDocumento", datos.TipoDocumento),
@@ -123,7 +131,18 @@ namespace CheckIn.API.Controllers
                                                         new SqlParameter("@TotalComprobante", datos.TotalComprobante),
                                                         new SqlParameter("@Id", id),
                                                         new SqlParameter("@TotalImpuesto", datos.Impuesto),
-                                                        new SqlParameter("@EmisorId", datos.tipoIdentificacionEmisor));
+                                                        new SqlParameter("@EmisorId", datos.tipoIdentificacionEmisor),
+
+                                                        new SqlParameter("@IVA0", datos.IVA0),
+                                                        new SqlParameter("@IVA1", datos.IVA1),
+                                                        new SqlParameter("@IVA2", datos.IVA2),                                                                                                                
+                                                        new SqlParameter("@IVA4", datos.IVA4),
+                                                        new SqlParameter("@IVA8", datos.IVA8),
+                                                        new SqlParameter("@IVA13", datos.IVA13));
+
+
+                                                       
+                                                        
                                                     }
                                                     else
                                                     {
@@ -134,7 +153,17 @@ namespace CheckIn.API.Controllers
 
 
                                                 }
-                                                catch { }
+                                                catch(Exception ex) {
+
+                                                    BitacoraErrores be = new BitacoraErrores();
+                                                    be.Descripcion = ex.Message;
+                                                    be.StackTrace = ex.StackTrace;
+                                                    be.Fecha = DateTime.Now;
+                                                    be.DocNum = id.ToString();
+                                                    db.BitacoraErrores.Add(be);
+                                                    db.SaveChanges();
+
+                                                }
                                             }
 
                                             if (i == message.Attachments.Count())

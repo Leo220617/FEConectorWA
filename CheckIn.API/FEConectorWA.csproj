@@ -282,6 +282,7 @@
     <Compile Include="Controllers\CondicionesVentaController.cs" />
     <Compile Include="Controllers\CorreosRecepcionController.cs" />
     <Compile Include="Controllers\DocumentosController.cs" />
+    <Compile Include="Controllers\FacturasController.cs" />
     <Compile Include="Controllers\G.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -305,13 +306,17 @@
     <Compile Include="Helpers\UsersHelper.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Apis\CuerpoBandejaEntrada.cs" />
+    <Compile Include="Models\Apis\CuerpoBandejaEntrada1.cs" />
     <Compile Include="Models\Apis\cuerpoRespuesta.cs" />
     <Compile Include="Models\Apis\DetDocumentoViewModel.cs" />
     <Compile Include="Models\Apis\EncDocumentoViewModel.cs" />
     <Compile Include="Models\Apis\MakeXML.cs" />
     <Compile Include="Models\Apis\MakeXMLAceptacionFactura.cs" />
+    <Compile Include="Models\Apis\MakeXMLReenvioFacturas.cs" />
     <Compile Include="Models\Apis\respuesta.cs" />
     <Compile Include="Models\Apis\respuestaHacienda.cs" />
+    <Compile Include="Models\Apis\respuestaHaciendaBandeja.cs" />
     <Compile Include="Models\Filtros.cs" />
     <Compile Include="Models\HeaderReportViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
