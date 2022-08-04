@@ -60,8 +60,8 @@ namespace CheckIn.API.Models.ModelCliente
         [Column(TypeName = "money")]
         public decimal? baseImponible { get; set; }
 
-        [StringLength(10)]
-        public string idImpuesto { get; set; }
+       
+        public int idImpuesto { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? montoImpuesto { get; set; }

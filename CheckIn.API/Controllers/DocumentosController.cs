@@ -188,7 +188,7 @@ namespace CheckIn.API.Controllers
                         det.MontoDescuento = det.MontoTotal * desc < 0 ? 0 : Math.Round(det.MontoTotal.Value * desc, 2);
                         det.NaturalezaDescuento = string.IsNullOrEmpty(item.NaturalezaDescuento.ToString()) ? "Descuento" : item.NaturalezaDescuento.ToString();
                         det.SubTotal = Math.Round(det.MontoTotal.Value - det.MontoDescuento.Value, 2);
-                        det.idImpuesto = item.idImpuesto.ToString();
+                        det.idImpuesto = item.idImpuesto ;
                         det.factorIVA = Convert.ToDecimal(item.factorIVA);
                         det.baseImponible = Math.Round(det.SubTotal.Value, 2);
                         var Impuesto = db.Impuestos.Where(a => a.id == det.idImpuesto).FirstOrDefault();

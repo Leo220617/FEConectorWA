@@ -295,9 +295,7 @@ namespace CheckIn.API.Models.ModelCliente
                 .Property(e => e.baseImponible)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<DetDocumento>()
-                .Property(e => e.idImpuesto)
-                .IsUnicode(false);
+         
 
             modelBuilder.Entity<DetDocumento>()
                 .Property(e => e.montoImpuesto)
@@ -483,9 +481,7 @@ namespace CheckIn.API.Models.ModelCliente
                 .Property(e => e.JSON)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Impuestos>()
-                .Property(e => e.id)
-                .IsUnicode(false);
+        
 
             modelBuilder.Entity<Impuestos>()
                 .Property(e => e.codigo)

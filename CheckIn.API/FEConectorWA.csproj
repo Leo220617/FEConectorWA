@@ -285,6 +285,7 @@
     <Compile Include="Controllers\FacturasController.cs" />
     <Compile Include="Controllers\G.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImpuestosController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\Metodos.cs" />
     <Compile Include="Controllers\ParametrosController.cs" />

@@ -8,8 +8,8 @@ namespace CheckIn.API.Models.ModelCliente
 
     public partial class Impuestos
     {
-        [StringLength(10)]
-        public string id { get; set; }
+         
+        public int id { get; set; }
 
         [StringLength(2)]
         public string codigo { get; set; }
