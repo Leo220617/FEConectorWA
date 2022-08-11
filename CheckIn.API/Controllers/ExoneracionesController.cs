@@ -21,13 +21,18 @@ namespace CheckIn.API.Controllers
         {
             try
             {
+                G.AbrirConexionAPP(out db);
+
                 var Exoneraciones = db.Exoneraciones.ToList();
+                G.CerrarConexionAPP(db);
 
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK, Exoneraciones);
             }
             catch (Exception ex)
             {
+                G.CerrarConexionAPP(db);
+
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, ex);
 
             }
@@ -37,24 +42,31 @@ namespace CheckIn.API.Controllers
         {
             try
             {
+                G.AbrirConexionAPP(out db);
+
                 Exoneraciones exoneraciones = db.Exoneraciones.Where(a => a.id == ID).FirstOrDefault();
 
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK, exoneraciones);
             }
             catch (Exception ex)
             {
+                G.CerrarConexionAPP(db);
+
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, ex);
 
             }
 
         }
-        [Route("api/Exoneraciones/Insertar")]
+   
         [HttpPost]
         public HttpResponseMessage Post([FromBody] Exoneraciones exoneraciones)
         {
             try
             {
+                G.AbrirConexionAPP(out db);
+
                 Exoneraciones Exoneracion = db.Exoneraciones.Where(a => a.id == exoneraciones.id).FirstOrDefault();
                 if (Exoneracion == null)
                 {
@@ -73,11 +85,13 @@ namespace CheckIn.API.Controllers
                 {
                     throw new Exception("Ya existe una exoneración con este ID");
                 }
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, ex);
             }
@@ -88,6 +102,8 @@ namespace CheckIn.API.Controllers
         {
             try
             {
+                G.AbrirConexionAPP(out db);
+
                 Exoneraciones Exoneraciones = db.Exoneraciones.Where(a => a.id == exoneraciones.id).FirstOrDefault();
                 if (Exoneraciones != null)
                 {
@@ -105,11 +121,13 @@ namespace CheckIn.API.Controllers
                     throw new Exception("No existe una exoneración" +
                         " con este ID");
                 }
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, ex);
             }
@@ -120,6 +138,8 @@ namespace CheckIn.API.Controllers
         {
             try
             {
+                G.AbrirConexionAPP(out db);
+
                 Exoneraciones Exoneraciones = db.Exoneraciones.Where(a => a.id == id).FirstOrDefault();
                 if (Exoneraciones != null)
                 {
@@ -131,11 +151,13 @@ namespace CheckIn.API.Controllers
                 {
                     throw new Exception("No existe una exoneración con este ID");
                 }
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
+                G.CerrarConexionAPP(db);
 
                 return Request.CreateResponse(System.Net.HttpStatusCode.InternalServerError, ex);
             }
