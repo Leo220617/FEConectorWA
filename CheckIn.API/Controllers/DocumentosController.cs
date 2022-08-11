@@ -186,7 +186,7 @@ namespace CheckIn.API.Controllers
                         det.MontoTotal = Math.Round(det.cantidad.Value * det.PrecioUnitario.Value, 2);
                         var desc = Convert.ToDecimal(item.PorDesc) / 100;
                         det.MontoDescuento = det.MontoTotal * desc < 0 ? 0 : Math.Round(det.MontoTotal.Value * desc, 2);
-                        det.NaturalezaDescuento = string.IsNullOrEmpty(item.NaturalezaDescuento.ToString()) ? "Descuento" : item.NaturalezaDescuento.ToString();
+                        det.NaturalezaDescuento = string.IsNullOrEmpty(item.NaturalezaDescuento) ? "Descuento" : item.NaturalezaDescuento.ToString();
                         det.SubTotal = Math.Round(det.MontoTotal.Value - det.MontoDescuento.Value, 2);
                         det.idImpuesto = item.idImpuesto ;
                         det.factorIVA = Convert.ToDecimal(item.factorIVA);
@@ -196,20 +196,21 @@ namespace CheckIn.API.Controllers
 
                         
 
-                        if (!string.IsNullOrEmpty(item.exonNumdoc.ToString()))
+                        if (!string.IsNullOrEmpty(item.exonNumdoc))
                         {
                             if (Convert.ToInt32(item.exonNumdoc) > 0)
                             {
                                 try
                                 {
-                                     
+                                var numExon = Convert.ToInt32(item.exonNumdoc);
+                                var Exoneracion = db.Exoneraciones.Where(a => a.id == numExon).FirstOrDefault();
 
-                                    det.exonTipoDoc = item.exonTipoDoc;
-                                    det.exonNumdoc = item.exonNumdoc;
-                                    det.exonNomInst = item.exonNomInst;
-                                det.exonFecEmi = item.exonFecEmi;
+                                    det.exonTipoDoc = Exoneracion.TipoDoc;
+                                    det.exonNumdoc = Exoneracion.NumDoc;
+                                    det.exonNomInst = Exoneracion.NomInst;
+                                det.exonFecEmi = Exoneracion.FechaEmision;
                                     
-                                    det.exonPorExo = item.exonPorExo; // Convert.ToInt32(db.Impuestos.Where(a => a.id == tipoImp).FirstOrDefault().tarifa.Value);
+                                    det.exonPorExo = Exoneracion.PorExon; // Convert.ToInt32(db.Impuestos.Where(a => a.id == tipoImp).FirstOrDefault().tarifa.Value);
 
                                     det.exonMonExo = Math.Round((det.SubTotal.Value * det.exonPorExo.Value / 100), 2);
 
@@ -611,7 +612,7 @@ namespace CheckIn.API.Controllers
                             db.Entry(documento).State = System.Data.Entity.EntityState.Modified;
                             documento.procesadaHacienda = true;
                             documento.code = resp.code;
-                            documento.RespuestaHacienda = resp.hacienda_mensaje;
+                            documento.RespuestaHacienda = resp.hacienda_mensaje == null ? resp.xml_error : resp.hacienda_mensaje ;
                             documento.XMLFirmado = resp.data;
                             documento.ClaveHacienda = resp.clave;
                             documento.JSON = JsonConvert.SerializeObject(xml);
@@ -693,8 +694,7 @@ namespace CheckIn.API.Controllers
 
 
 
-
-
+ 
                 G.CerrarConexionAPP(db);
 
 

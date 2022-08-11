@@ -58,7 +58,7 @@ namespace CheckIn.API.Controllers
         }
 
         [Route("api/CondicionesVenta/Consultar")]
-        public HttpResponseMessage GetOne([FromUri]string id)
+        public HttpResponseMessage GetOne([FromUri]int id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace CheckIn.API.Controllers
                 G.AbrirConexionAPP(out db);
 
 
-                var cond = db.CondicionesVenta.Where(a => a.codCyber == id).FirstOrDefault();
+                var cond = db.CondicionesVenta.Where(a => a.id == id).FirstOrDefault();
 
 
                 if (cond == null)
@@ -93,7 +93,7 @@ namespace CheckIn.API.Controllers
 
                 G.AbrirConexionAPP(out db);
 
-                var Cond = db.CondicionesVenta.Where(a => a.codCyber == cond.codCyber).FirstOrDefault();
+                var Cond = db.CondicionesVenta.Where(a => a.id == cond.id).FirstOrDefault();
 
                 if (Cond == null)
                 {
@@ -134,7 +134,7 @@ namespace CheckIn.API.Controllers
                 G.AbrirConexionAPP(out db);
 
 
-                var Cond = db.CondicionesVenta.Where(a => a.codCyber == cond.codCyber).FirstOrDefault();
+                var Cond = db.CondicionesVenta.Where(a => a.id == cond.id).FirstOrDefault();
 
                 if (Cond != null)
                 {

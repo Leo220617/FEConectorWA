@@ -2,6 +2,7 @@
 using CheckIn.API.Models.ModelCliente;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -116,7 +117,7 @@ namespace CheckIn.API.Controllers
 
                 xml.encabezado = new encabezado();
                 xml.encabezado.codigo_actividad = enc.CodActividadEconomica;
-                xml.encabezado.fecha = enc.Fecha.Value.ToString("yyyy-MM-ddThh:mm:ss-06:00");
+                xml.encabezado.fecha =   enc.Fecha.Value.ToString("yyyy-MM-ddThh:mm:ss-06:00");
                 xml.encabezado.condicion_venta = db.CondicionesVenta.Where(a => a.id == enc.condicionVenta).FirstOrDefault() == null ? "01" : db.CondicionesVenta.Where(a => a.id == enc.condicionVenta).FirstOrDefault().codCyber;
                 xml.encabezado.plazo_credito = enc.plazoCredito.ToString();
                 xml.encabezado.medio_pago = enc.medioPago;

@@ -44,6 +44,8 @@ namespace CheckIn.API.Models.ModelCliente
         public virtual DbSet<SeguridadRolesModulos> SeguridadRolesModulos { get; set; }
         public virtual DbSet<Sucursales> Sucursales { get; set; }
         public virtual DbSet<UnidadesMedida> UnidadesMedida { get; set; }
+        public virtual DbSet<Exoneraciones> Exoneraciones { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
