@@ -282,6 +282,7 @@
     <Compile Include="Controllers\CondicionesVentaController.cs" />
     <Compile Include="Controllers\CorreosRecepcionController.cs" />
     <Compile Include="Controllers\DocumentosController.cs" />
+    <Compile Include="Controllers\ExoneracionesController.cs" />
     <Compile Include="Controllers\FacturasController.cs" />
     <Compile Include="Controllers\G.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="Models\ModelCliente\DetDocumento.cs" />
     <Compile Include="Models\ModelCliente\Distritos.cs" />
     <Compile Include="Models\ModelCliente\EncDocumento.cs" />
+    <Compile Include="Models\ModelCliente\Exoneraciones.cs" />
     <Compile Include="Models\ModelCliente\Impuestos.cs" />
     <Compile Include="Models\ModelCliente\Login.cs" />
     <Compile Include="Models\ModelCliente\ModelCliente.cs" />
