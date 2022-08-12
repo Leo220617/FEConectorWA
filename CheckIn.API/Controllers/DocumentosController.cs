@@ -620,7 +620,7 @@ namespace CheckIn.API.Controllers
                             {
                                 if (resp.clave.Length > 3)
                                 {
-                                    documento.ConsecutivoHacienda = enc.ClaveHacienda.Substring(21, 20);
+                                    documento.ConsecutivoHacienda = documento.ClaveHacienda.Substring(21, 20);
 
 
 
