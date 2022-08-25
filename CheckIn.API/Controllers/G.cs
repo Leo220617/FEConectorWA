@@ -329,15 +329,138 @@ namespace CheckIn.API.Controllers
                     {
 
                         decimal Impuesto = 0;
+
+                        if(item.Impuesto != null)
+                        {
+                            try
+                            {
+                                Impuesto = Convert.ToDecimal(item.Impuesto.Tarifa);
+
+                            }
+                            catch (Exception)
+                            {
+
+                                Impuesto = Convert.ToDecimal(item.Impuesto.Tarifa.Replace(".", ","));
+
+                            }
+
+                            switch (Impuesto)
+                            {
+                                case 0:
+                                    {
+                                        try
+                                        {
+                                            facturaxml.IVA0 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            facturaxml.IVA0 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                        }
+
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        try
+                                        {
+                                            facturaxml.IVA1 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            facturaxml.IVA1 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                        }
+
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        try
+                                        {
+                                            facturaxml.IVA2 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            facturaxml.IVA2 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                        }
+
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        try
+                                        {
+                                            facturaxml.IVA4 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            facturaxml.IVA4 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                        }
+                                        break;
+                                    }
+                                case 8:
+                                    {
+                                        try
+                                        {
+                                            facturaxml.IVA8 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            facturaxml.IVA8 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                        }
+
+                                        break;
+                                    }
+                                case 13:
+                                    {
+                                        try
+                                        {
+                                            facturaxml.IVA13 += Convert.ToDecimal(item.Impuesto.Monto);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            facturaxml.IVA13 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+
+
+                                        }
+                                        break;
+                                    }
+
+                            }
+                        }
+                       
+                       
+                    }
+                }else if(cuerpoBandejaEntrada1 != null)
+                {
+                    decimal Impuesto = 0;
+
+                    if(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto != null)
+                    {
                         try
                         {
-                            Impuesto = Convert.ToDecimal(item.Impuesto.Tarifa);
+                            Impuesto = Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Tarifa);
 
                         }
                         catch (Exception)
                         {
 
-                            Impuesto = Convert.ToDecimal(item.Impuesto.Tarifa.Replace(".", ","));
+                            Impuesto = Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Tarifa.Replace(".", ","));
 
                         }
                         switch (Impuesto)
@@ -346,12 +469,12 @@ namespace CheckIn.API.Controllers
                                 {
                                     try
                                     {
-                                        facturaxml.IVA0 += Convert.ToDecimal(item.Impuesto.Monto);
+                                        facturaxml.IVA0 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
 
                                     }
                                     catch (Exception)
                                     {
-                                        facturaxml.IVA0 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+                                        facturaxml.IVA0 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
 
 
                                     }
@@ -362,12 +485,12 @@ namespace CheckIn.API.Controllers
                                 {
                                     try
                                     {
-                                        facturaxml.IVA1 += Convert.ToDecimal(item.Impuesto.Monto);
+                                        facturaxml.IVA1 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
 
                                     }
                                     catch (Exception)
                                     {
-                                        facturaxml.IVA1 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+                                        facturaxml.IVA1 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
 
 
                                     }
@@ -378,12 +501,12 @@ namespace CheckIn.API.Controllers
                                 {
                                     try
                                     {
-                                        facturaxml.IVA2 += Convert.ToDecimal(item.Impuesto.Monto);
+                                        facturaxml.IVA2 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
 
                                     }
                                     catch (Exception)
                                     {
-                                        facturaxml.IVA2 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+                                        facturaxml.IVA2 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
 
 
                                     }
@@ -394,12 +517,12 @@ namespace CheckIn.API.Controllers
                                 {
                                     try
                                     {
-                                        facturaxml.IVA4 += Convert.ToDecimal(item.Impuesto.Monto);
+                                        facturaxml.IVA4 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
 
                                     }
                                     catch (Exception)
                                     {
-                                        facturaxml.IVA4 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+                                        facturaxml.IVA4 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
 
 
                                     }
@@ -409,12 +532,12 @@ namespace CheckIn.API.Controllers
                                 {
                                     try
                                     {
-                                        facturaxml.IVA8 += Convert.ToDecimal(item.Impuesto.Monto);
+                                        facturaxml.IVA8 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
 
                                     }
                                     catch (Exception)
                                     {
-                                        facturaxml.IVA8 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+                                        facturaxml.IVA8 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
 
 
                                     }
@@ -425,12 +548,12 @@ namespace CheckIn.API.Controllers
                                 {
                                     try
                                     {
-                                        facturaxml.IVA13 += Convert.ToDecimal(item.Impuesto.Monto);
+                                        facturaxml.IVA13 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
 
                                     }
                                     catch (Exception)
                                     {
-                                        facturaxml.IVA13 += Convert.ToDecimal(item.Impuesto.Monto.Replace(".", ","));
+                                        facturaxml.IVA13 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
 
 
                                     }
@@ -439,118 +562,8 @@ namespace CheckIn.API.Controllers
 
                         }
                     }
-                }else if(cuerpoBandejaEntrada1 != null)
-                {
-                    decimal Impuesto = 0;
-                    try
-                    {
-                        Impuesto = Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Tarifa);
 
-                    }
-                    catch (Exception)
-                    {
-
-                        Impuesto = Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Tarifa.Replace(".", ","));
-
-                    }
-                    switch (Impuesto)
-                    {
-                        case 0:
-                            {
-                                try
-                                {
-                                    facturaxml.IVA0 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
-
-                                }
-                                catch (Exception)
-                                {
-                                    facturaxml.IVA0 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
-
-
-                                }
-
-                                break;
-                            }
-                        case 1:
-                            {
-                                try
-                                {
-                                    facturaxml.IVA1 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
-
-                                }
-                                catch (Exception)
-                                {
-                                    facturaxml.IVA1 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
-
-
-                                }
-
-                                break;
-                            }
-                        case 2:
-                            {
-                                try
-                                {
-                                    facturaxml.IVA2 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
-
-                                }
-                                catch (Exception)
-                                {
-                                    facturaxml.IVA2 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
-
-
-                                }
-
-                                break;
-                            }
-                        case 4:
-                            {
-                                try
-                                {
-                                    facturaxml.IVA4 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
-
-                                }
-                                catch (Exception)
-                                {
-                                    facturaxml.IVA4 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
-
-
-                                }
-                                break;
-                            }
-                        case 8:
-                            {
-                                try
-                                {
-                                    facturaxml.IVA8 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
-
-                                }
-                                catch (Exception)
-                                {
-                                    facturaxml.IVA8 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
-
-
-                                }
-
-                                break;
-                            }
-                        case 13:
-                            {
-                                try
-                                {
-                                    facturaxml.IVA13 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto);
-
-                                }
-                                catch (Exception)
-                                {
-                                    facturaxml.IVA13 += Convert.ToDecimal(cuerpoBandejaEntrada1.FacturaElectronica.DetalleServicio.LineaDetalle.Impuesto.Monto.Replace(".", ","));
-
-
-                                }
-                                break;
-                            }
-
-                    }
+                   
                 }
                
 
@@ -580,7 +593,10 @@ namespace CheckIn.API.Controllers
                 facturaxml.CodigoMoneda = GetXmlCodigoMoneda.Match(xml).ToString().Replace("<CodigoMoneda>", "").Replace("</CodigoMoneda>", "");
                 var Total = GetXmlTotalComprobante.Match(xml).ToString().Replace("<TotalComprobante>", "").Replace("</TotalComprobante>", "");
            
- 
+                if(string.IsNullOrEmpty(facturaxml.CodigoMoneda))
+                {
+                    facturaxml.CodigoMoneda = "CRC";
+                }
 
                 try
                 {

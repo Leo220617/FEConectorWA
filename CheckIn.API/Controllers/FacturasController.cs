@@ -33,7 +33,7 @@ namespace CheckIn.API.Controllers
                 {
                     filtro.FechaFinal = filtro.FechaFinal.AddDays(1);
                 }
-                var Documentos = db.EncDocumento.Where(a => (filtro.FechaInicio != time ? a.Fecha >= filtro.FechaInicio : true) && (filtro.FechaFinal != time ? a.Fecha <= filtro.FechaFinal : true) && a.code == 1).ToList();
+                var Documentos = db.EncDocumento.Where(a => (filtro.FechaInicio != time ? a.Fecha >= filtro.FechaInicio : true) && (filtro.FechaFinal != time ? a.Fecha <= filtro.FechaFinal : true) ).ToList();
 
                 if (!string.IsNullOrEmpty(filtro.Texto))
                 {
@@ -42,7 +42,7 @@ namespace CheckIn.API.Controllers
 
                 if (!string.IsNullOrEmpty(filtro.Estado))
                 {
-                    if (filtro.Estado != "NULL")
+                    if (filtro.Estado != "NULL" && filtro.Estado != "error")
                     {
                         Documentos = Documentos.Where(a => a.RespuestaHacienda != null).ToList();
                         Documentos = Documentos.Where(a => a.RespuestaHacienda.ToUpper().Contains(filtro.Estado.ToUpper())).ToList();

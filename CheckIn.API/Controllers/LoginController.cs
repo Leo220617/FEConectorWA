@@ -260,15 +260,17 @@ namespace CheckIn.API.Controllers
             }
             catch (Exception ex)
             {
+                
+
+                t.Rollback();
+                d.Rollback();
+
                 BitacoraErrores be = new BitacoraErrores();
-                be.Descripcion = ex.Message ;
+                be.Descripcion = ex.Message;
                 be.StackTrace = ex.StackTrace;
                 be.Fecha = DateTime.Now;
                 db.BitacoraErrores.Add(be);
                 db.SaveChanges();
-
-                t.Rollback();
-                d.Rollback();
                 G.CerrarConexionAPP(db);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }

@@ -593,7 +593,7 @@ namespace CheckIn.API.Controllers
                     t.Commit();
 
                     //Crear el xml a enviar
-                    MakeXML xml = metodo.RellenarXML(documento, Detalles.ToArray());
+                    MakeXML xml = metodo.RellenarXML(documento, Detalles.ToArray(), (enc.TipoDocumento == "08" ? true : false));
                     HttpClient cliente = new HttpClient();
 
                     var httpContent = new StringContent(JsonConvert.SerializeObject(xml), Encoding.UTF8, "application/json");
