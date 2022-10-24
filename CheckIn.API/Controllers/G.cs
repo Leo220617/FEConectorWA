@@ -320,7 +320,10 @@ namespace CheckIn.API.Controllers
 
 
             FacturaXml facturaxml = new FacturaXml();
+            string s = "<Fax xsi:nil=" + '"' + "true" + '"' + "/>";
+            xml = xml.Trim().Replace("<Telefono xsi:nil=\"", "").Replace("true\"", "").Replace(" />", "");
 
+            xml = xml.Trim().Replace("<Fax xsi:nil=\"", "").Replace("true\"", "").Replace(" />", "");
             try
             {
                 if(cuerpoBandejaEntrada != null)
