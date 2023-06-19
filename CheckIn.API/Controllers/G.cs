@@ -299,7 +299,7 @@ namespace CheckIn.API.Controllers
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
             string json = JsonConvert.SerializeXmlNode(doc);
-
+            json = json.Replace("xsd:", "");
             CuerpoBandejaEntrada cuerpoBandejaEntrada = null;
             CuerpoBandejaEntrada1 cuerpoBandejaEntrada1 = null;
 
