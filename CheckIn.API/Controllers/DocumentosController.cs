@@ -119,7 +119,7 @@ namespace CheckIn.API.Controllers
                         if (!string.IsNullOrEmpty(enc.OtroTexto))
                         {
                             OtrosTextos ot = new OtrosTextos();
-                            ot.idEncabezado = enc.id;
+                            ot.idEncabezado = documento.id;
                             ot.codigo = "99";
                             ot.detalle = enc.OtroTexto;
                             db.OtrosTextos.Add(ot);
